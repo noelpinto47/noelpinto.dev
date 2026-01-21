@@ -1,20 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0B131B" />
-    <title>Noel Pinto's Portfolio</title>
+    <meta name="theme-color" content="#1f1f1f" />
+    <title>Noel Pinto | Mobile Applications Engineer</title>
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
     <link rel="manifest" href="/favicon_io/site.webmanifest">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#ff6a00",
+              "background-dark": "#1f1f1f",
+              "surface-dark": "#2a2a2a",
+              "text-cream": "#ede0cf",
+              "text-gray": "#9a9a9a",
+              "border-subtle": "#333333",
+            },
+            fontFamily: {
+              "display": ["Noto Serif", "serif"],
+              "sans": ["Inter", "sans-serif"],
+            },
+            spacing: {
+              '128': '32rem',
+            }
+          },
+        },
+      }
+    </script>
+    
     <style>
-      html, body, #root { background-color: #0B131B; }
+      html, body, #root { 
+        background-color: #1f1f1f;
+        min-height: 100vh;
+      }
+      
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #1f1f1f;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #333;
+      }
+      
+      /* Subtle noise texture */
+      .bg-noise {
+        background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuASVBJE-vHO6930mOUYEMaoIwHeoGAJDskPUeq9CFgtTF4sa8tAjRQISVDHZgzzBvp6G_IjL-lq0ogRcCONd76dsPZJzzeOdQC9uQb7D036B01UvOZYzqh1VFjd4D2zgK6gnp7qN5Tjm5Evl-HvwwQMqbESkHR8czqxItq8M61VxW18MK83S8AVj7H1MdqNmeotIfQiCwefHMMfibtbJd_SlBTAtykomOkQLNhhahZry7g6tBJmp_w-vuyeV3qOJS5RHmex_uCIXECQ);
+        pointer-events: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 50;
+        opacity: 0.4;
+      }
+      
+      .technical-border {
+        background-image: linear-gradient(to right, #333 50%, transparent 50%);
+        background-position: bottom;
+        background-size: 8px 1px;
+        background-repeat: repeat-x;
+      }
     </style>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body class="bg-background-dark text-text-cream antialiased selection:bg-primary selection:text-white overflow-x-hidden font-sans">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

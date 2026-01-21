@@ -1,262 +1,368 @@
 import React from "react";
-import { Box, Typography, keyframes, useTheme, useMediaQuery, Avatar, Container, Divider, Button } from "@mui/material";
-import { motion } from "framer-motion";
-import bg from "../assets/images/background_1.webp";
-import Navbar from "../components/Navbar";
-import GlassBox from "../components/GlassBox";
-
-// Animation keyframes
-const float = keyframes`
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
-`;
-
-const fadeIn = keyframes`
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-`;
+import { Link } from "react-router-dom";
 
 const About = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  
   return (
-    <Box
-      sx={{
-        minHeight: "100vh",
-        width: "100%",
-        position: "relative",
-        overflow: 'hidden',
-        '&::before': {
-          content: '""',
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: `url(${bg})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          backgroundAttachment: 'fixed',
-          zIndex: 1,
-        },
-        '&::after': {
-          content: '""',
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.6)',
-          backdropFilter: 'blur(5px)',
-          zIndex: 2,
-        }
-      }}
-    >
-      <Navbar />
-      <Container 
-        maxWidth="md" 
-        sx={{
-          position: 'relative',
-          zIndex: 3,
-          minHeight: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          py: 8,
-          px: isMobile ? 2 : 4,
-        }}
-      >
-        <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          style={{ width: '100%' }}
+    <>
+
+      {/* Architectural Vertical Grid Lines (Background) */}
+      <div className="fixed inset-0 pointer-events-none z-0 flex justify-center w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full h-full border-l border-r border-[#ffffff05] grid grid-cols-4 gap-4">
+          <div className="hidden sm:block border-r border-[#ffffff05] h-full"></div>
+          <div className="hidden md:block border-r border-[#ffffff05] h-full"></div>
+          <div className="hidden lg:block border-r border-[#ffffff05] h-full"></div>
+        </div>
+      </div>
+
+      {/* Sticky Navigation */}
+      <nav className="fixed top-0 left-0 w-full z-40 bg-background-dark/90 backdrop-blur-sm border-b border-border-subtle">
+        <div className="max-w-[1440px] mx-auto px-6 py-4 flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold tracking-widest text-text-gray font-sans uppercase">
+              Fig. 01
+            </span>
+            <span className="w-px h-4 bg-primary mx-2"></span>
+            <Link
+              to="/"
+              className="text-sm font-bold tracking-wider text-text-cream hover:text-primary transition-colors duration-200"
+            >
+              [ NOEL PINTO ]
+            </Link>
+          </div>
+          <div className="hidden md:flex gap-8">
+            <Link className="group flex flex-col items-center" to="/portfolio">
+              <span className="text-xs font-medium tracking-[0.2em] text-text-gray group-hover:text-white transition-colors">
+                WORK
+              </span>
+              <span className="w-0 group-hover:w-full h-[1px] bg-primary transition-all duration-300 mt-1"></span>
+            </Link>
+            <Link className="group flex flex-col items-center" to="/about">
+              <span className="text-xs font-medium tracking-[0.2em] text-white transition-colors">
+                ABOUT
+              </span>
+              <span className="w-full h-[1px] bg-primary mt-1"></span>
+            </Link>
+            <Link className="group flex flex-col items-center" to="/contact">
+              <span className="text-xs font-medium tracking-[0.2em] text-text-gray group-hover:text-white transition-colors">
+                CONTACT
+              </span>
+              <span className="w-0 group-hover:w-full h-[1px] bg-primary transition-all duration-300 mt-1"></span>
+            </Link>
+          </div>
+          <button className="md:hidden text-white">
+            <span className="material-symbols-outlined">menu</span>
+          </button>
+        </div>
+      </nav>
+
+      {/* Main Content Wrapper */}
+      <main className="relative z-10 pt-20 flex flex-col items-center w-full min-h-screen">
+        {/* Hero Section */}
+        <section className="w-full max-w-[1200px] px-6 py-24 md:py-32 relative animate-in fade-in duration-700">
+          <div className="absolute top-10 right-6 md:right-0 text-[10px] text-text-gray font-mono tracking-widest border border-border-subtle px-2 py-1">
+            REF: ABT-2024
+          </div>
+          <div className="flex flex-col gap-2">
+            <h2 className="text-primary text-xs font-bold tracking-[0.4em] uppercase font-sans mb-2 pl-1">
+              Engineering Philosophy
+            </h2>
+            <h1 className="text-7xl md:text-9xl font-display font-black leading-[0.8] tracking-tighter text-text-cream mix-blend-screen">
+              ABOUT<span className="text-primary">.</span>
+            </h1>
+          </div>
+          <div className="h-px w-full bg-border-subtle mt-16 technical-border"></div>
+        </section>
+
+        {/* Profile Section */}
+        <section className="w-full max-w-[1200px] px-6 pb-24">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8">
+            <div className="md:col-span-3 flex flex-col justify-start">
+              <div className="sticky top-32">
+                <span className="text-primary font-mono text-sm font-bold tracking-widest border border-primary/30 bg-primary/5 px-3 py-1 inline-block">
+                  01_PROFILE
+                </span>
+                <div className="mt-4 text-[10px] text-text-gray font-mono opacity-50 block border-l border-border-subtle pl-2">
+                  LOC: MUMBAI<br />
+                  LAT: 19.07° N<br />
+                  LON: 72.87° E
+                </div>
+              </div>
+            </div>
+            <div className="md:col-span-9 flex flex-col gap-8">
+              <p className="text-2xl md:text-4xl font-display font-medium text-text-cream leading-tight">
+                "I don't just write code; I engineer resilient digital structures."
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-text-gray font-light leading-relaxed text-sm md:text-base">
+                <p>
+                  With over 6 years of experience in mobile application
+                  development, my work sits at the intersection of brutalist
+                  efficiency and fluid user interaction. I believe that a great
+                  application is defined not just by how it looks, but by the
+                  structural integrity of its codebase.
+                </p>
+                <p>
+                  Specializing in cross-platform architectures and native
+                  performance optimization, I approach every project with an
+                  industrial mindset: measure twice, code once. My philosophy
+                  borrows from Virgil Abloh's "3% rule"—taking established
+                  patterns and iterating them into something distinct and
+                  functional.
+                </p>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-8 border-t border-dashed border-border-subtle">
+                <div>
+                  <span className="block text-3xl font-display text-text-cream">
+                    6+
+                  </span>
+                  <span className="text-[10px] uppercase tracking-wider text-text-gray font-mono">
+                    Years Exp.
+                  </span>
+                </div>
+                <div>
+                  <span className="block text-3xl font-display text-text-cream">
+                    24
+                  </span>
+                  <span className="text-[10px] uppercase tracking-wider text-text-gray font-mono">
+                    Projects
+                  </span>
+                </div>
+                <div>
+                  <span className="block text-3xl font-display text-text-cream">
+                    100%
+                  </span>
+                  <span className="text-[10px] uppercase tracking-wider text-text-gray font-mono">
+                    Delivery
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Separator */}
+        <div className="w-full max-w-[1440px] px-6">
+          <div className="h-px bg-border-subtle w-full technical-border"></div>
+        </div>
+
+        {/* Timeline Section */}
+        <section className="w-full max-w-[1200px] px-6 py-24">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8">
+            <div className="md:col-span-3">
+              <div className="sticky top-32">
+                <span className="text-text-gray font-mono text-sm font-bold tracking-widest border border-border-subtle px-3 py-1 inline-block">
+                  02_TIMELINE
+                </span>
+              </div>
+            </div>
+            <div className="md:col-span-9 relative border-l border-dashed border-border-subtle ml-3 md:ml-0 pl-8 md:pl-12 space-y-16">
+              {/* Timeline Item 1 */}
+              <div className="relative group">
+                <div className="absolute -left-[37px] md:-left-[53px] top-1.5 w-3 h-3 bg-background-dark border border-primary rounded-full group-hover:bg-primary transition-colors"></div>
+                <span className="text-primary font-mono text-xs tracking-widest mb-1 block">
+                  ESTD. 2023 — PRESENT
+                </span>
+                <h3 className="text-2xl font-display text-text-cream">
+                  Senior Mobile Engineer
+                </h3>
+                <p className="text-sm font-bold text-text-gray uppercase tracking-wider mt-1 mb-4">
+                  FinTech Solutions Inc.
+                </p>
+                <p className="text-text-gray/80 text-sm leading-relaxed max-w-xl">
+                  Spearheading the migration of legacy iOS codebases to modular
+                  SwiftUI architectures. Reduced build times by 40% and improved
+                  crash-free rate to 99.9%.
+                </p>
+              </div>
+
+              {/* Timeline Item 2 */}
+              <div className="relative group">
+                <div className="absolute -left-[37px] md:-left-[53px] top-1.5 w-3 h-3 bg-background-dark border border-border-subtle group-hover:border-primary rounded-full transition-colors"></div>
+                <span className="text-text-gray font-mono text-xs tracking-widest mb-1 block">
+                  ESTD. 2020 — 2023
+                </span>
+                <h3 className="text-2xl font-display text-text-cream">
+                  Product Engineer
+                </h3>
+                <p className="text-sm font-bold text-text-gray uppercase tracking-wider mt-1 mb-4">
+                  Creative App Studio
+                </p>
+                <p className="text-text-gray/80 text-sm leading-relaxed max-w-xl">
+                  Developed award-winning e-commerce applications using Flutter
+                  and React Native. Collaborated directly with design teams to
+                  implement pixel-perfect UI systems.
+                </p>
+              </div>
+
+              {/* Timeline Item 3 */}
+              <div className="relative group">
+                <div className="absolute -left-[37px] md:-left-[53px] top-1.5 w-3 h-3 bg-background-dark border border-border-subtle group-hover:border-primary rounded-full transition-colors"></div>
+                <span className="text-text-gray font-mono text-xs tracking-widest mb-1 block">
+                  ESTD. 2018 — 2020
+                </span>
+                <h3 className="text-2xl font-display text-text-cream">
+                  Junior Developer
+                </h3>
+                <p className="text-sm font-bold text-text-gray uppercase tracking-wider mt-1 mb-4">
+                  StartUp Inc.
+                </p>
+                <p className="text-text-gray/80 text-sm leading-relaxed max-w-xl">
+                  Assisted in the development of MVP products. Gained proficiency
+                  in Kotlin and Java for Android development.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Separator */}
+        <div className="w-full max-w-[1440px] px-6">
+          <div className="h-px bg-border-subtle w-full technical-border"></div>
+        </div>
+
+        {/* Skills Section */}
+        <section className="w-full max-w-[1200px] px-6 py-24 pb-32">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8">
+            <div className="md:col-span-3">
+              <div className="sticky top-32">
+                <span className="text-text-gray font-mono text-sm font-bold tracking-widest border border-border-subtle px-3 py-1 inline-block">
+                  03_SKILLS
+                </span>
+                <div className="mt-4 text-[10px] text-text-gray font-mono opacity-50 block border-l border-border-subtle pl-2">
+                  STACK: FULL<br />
+                  TYPE: NATIVE
+                </div>
+              </div>
+            </div>
+            <div className="md:col-span-9">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                {/* Skill Cards */}
+                <div className="group border border-border-subtle p-4 hover:border-primary transition-all duration-300 bg-surface-dark/30 hover:bg-surface-dark relative overflow-hidden">
+                  <div className="diagonal-stripe absolute top-0 right-0 w-8 h-8 opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                  <span className="text-[9px] text-text-gray uppercase tracking-widest block mb-3 font-mono">
+                    Mobile
+                  </span>
+                  <span className="text-base font-bold text-text-cream tracking-wide">
+                    SWIFT UI
+                  </span>
+                </div>
+
+                <div className="group border border-border-subtle p-4 hover:border-primary transition-all duration-300 bg-surface-dark/30 hover:bg-surface-dark relative overflow-hidden">
+                  <div className="diagonal-stripe absolute top-0 right-0 w-8 h-8 opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                  <span className="text-[9px] text-text-gray uppercase tracking-widest block mb-3 font-mono">
+                    Mobile
+                  </span>
+                  <span className="text-base font-bold text-text-cream tracking-wide">
+                    KOTLIN
+                  </span>
+                </div>
+
+                <div className="group border border-border-subtle p-4 hover:border-primary transition-all duration-300 bg-surface-dark/30 hover:bg-surface-dark relative overflow-hidden">
+                  <div className="diagonal-stripe absolute top-0 right-0 w-8 h-8 opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                  <span className="text-[9px] text-text-gray uppercase tracking-widest block mb-3 font-mono">
+                    Cross-Plat
+                  </span>
+                  <span className="text-base font-bold text-text-cream tracking-wide">
+                    FLUTTER
+                  </span>
+                </div>
+
+                <div className="group border border-border-subtle p-4 hover:border-primary transition-all duration-300 bg-surface-dark/30 hover:bg-surface-dark relative overflow-hidden">
+                  <div className="diagonal-stripe absolute top-0 right-0 w-8 h-8 opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                  <span className="text-[9px] text-text-gray uppercase tracking-widest block mb-3 font-mono">
+                    Cross-Plat
+                  </span>
+                  <span className="text-base font-bold text-text-cream tracking-wide">
+                    REACT NATIVE
+                  </span>
+                </div>
+
+                <div className="group border border-border-subtle p-4 hover:border-primary transition-all duration-300 bg-surface-dark/30 hover:bg-surface-dark relative overflow-hidden">
+                  <div className="diagonal-stripe absolute top-0 right-0 w-8 h-8 opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                  <span className="text-[9px] text-text-gray uppercase tracking-widest block mb-3 font-mono">
+                    Core
+                  </span>
+                  <span className="text-base font-bold text-text-cream tracking-wide">
+                    TYPESCRIPT
+                  </span>
+                </div>
+
+                <div className="group border border-border-subtle p-4 hover:border-primary transition-all duration-300 bg-surface-dark/30 hover:bg-surface-dark relative overflow-hidden">
+                  <div className="diagonal-stripe absolute top-0 right-0 w-8 h-8 opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                  <span className="text-[9px] text-text-gray uppercase tracking-widest block mb-3 font-mono">
+                    Tools
+                  </span>
+                  <span className="text-base font-bold text-text-cream tracking-wide">
+                    GIT / CI-CD
+                  </span>
+                </div>
+
+                <div className="group border border-border-subtle p-4 hover:border-primary transition-all duration-300 bg-surface-dark/30 hover:bg-surface-dark relative overflow-hidden">
+                  <div className="diagonal-stripe absolute top-0 right-0 w-8 h-8 opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                  <span className="text-[9px] text-text-gray uppercase tracking-widest block mb-3 font-mono">
+                    Design
+                  </span>
+                  <span className="text-base font-bold text-text-cream tracking-wide">
+                    FIGMA
+                  </span>
+                </div>
+
+                <div className="group border border-border-subtle p-4 hover:border-primary transition-all duration-300 bg-surface-dark/30 hover:bg-surface-dark relative overflow-hidden">
+                  <div className="diagonal-stripe absolute top-0 right-0 w-8 h-8 opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                  <span className="text-[9px] text-text-gray uppercase tracking-widest block mb-3 font-mono">
+                    Backend
+                  </span>
+                  <span className="text-base font-bold text-text-cream tracking-wide">
+                    NODE.JS
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Footer */}
+        <footer className="w-full border-t border-border-subtle bg-background-dark/50 backdrop-blur-sm z-20">
+          <div className="max-w-[1440px] mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+            <div className="flex flex-col gap-4">
+              <h2 className="text-text-cream text-2xl font-display font-bold tracking-tight">
+                Let's build something precise.
+              </h2>
+              <a
+                className="text-primary text-lg font-sans font-bold hover:underline decoration-2 underline-offset-4 decoration-primary/50"
+                href="mailto:hello@noelpinto.com"
+              >
+                hello@noelpinto.com
+              </a>
+            </div>
+            <div className="flex flex-col items-start md:items-end gap-2 text-text-gray text-xs font-mono tracking-widest">
+              <div className="flex gap-4">
+                <a className="hover:text-primary transition-colors" href="#">
+                  [ LINKEDIN ]
+                </a>
+                <a className="hover:text-primary transition-colors" href="#">
+                  [ GITHUB ]
+                </a>
+                <a className="hover:text-primary transition-colors" href="#">
+                  [ TWITTER ]
+                </a>
+              </div>
+              <p className="mt-4 opacity-50">© 2024 NOEL PINTO. EST. MUMBAI.</p>
+            </div>
+          </div>
+        </footer>
+
+        {/* Floating Action Button / Scroll to Top */}
+        <a
+          className="fixed bottom-8 right-8 z-50 group hidden md:flex items-center justify-center size-14 rounded-full border border-border-subtle bg-background-dark/80 backdrop-blur hover:border-primary transition-colors"
+          href="#"
         >
-          <GlassBox
-            sx={{
-              p: isMobile ? 3 : 4,
-              mt: isMobile ? 4 : 8,
-              borderRadius: '20px',
-              backdropFilter: 'blur(12px)',
-              background: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-              '&:hover': {
-                boxShadow: '0 12px 40px rgba(0, 0, 0, 0.15)',
-                transform: 'translateY(-2px)',
-              },
-              transition: 'all 0.3s ease',
-            }}
-          >
-            <Box sx={{ mb: 4 }}>
-              <Typography 
-                variant="h4"
-                sx={{
-                  color: 'white',
-                  mb: 3,
-                  fontWeight: 600,
-                  background: 'linear-gradient(120deg, rgba(132, 250, 176, 0.9) 0%, rgba(143, 211, 244, 0.9) 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  textFillColor: 'transparent',
-                  backgroundSize: '200% auto',
-                  animation: 'gradient 8s ease infinite',
-                  '@keyframes gradient': {
-                    '0%': { backgroundPosition: '0% 50%' },
-                    '50%': { backgroundPosition: '100% 50%' },
-                    '100%': { backgroundPosition: '0% 50%' },
-                  },
-                }}
-              >
-                About Me
-              </Typography>
-              <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.1)', mb: 3 }} />
-              <Typography 
-                variant="body1" 
-                sx={{
-                  color: 'rgba(255, 255, 255, 0.85)',
-                  lineHeight: 1.8,
-                  fontSize: isMobile ? '1rem' : '1.1rem',
-                  mb: 3,
-                }}
-              >
-                My journey in tech has been driven by a passion for problem-solving and a commitment to clean, maintainable code. I take pride in leading projects from concept to completion, ensuring each solution is tailored to meet specific business requirements while adhering to industry best practices.
-              </Typography>
-
-              <Box 
-                sx={{ 
-                  backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                  borderLeft: '3px solid',
-                  borderColor: 'primary.main',
-                  p: 3,
-                  mb: 3,
-                  borderRadius: '0 8px 8px 0',
-                }}
-              >
-                <Typography 
-                  variant="body1" 
-                  sx={{
-                    fontStyle: 'italic',
-                    color: 'rgba(255, 255, 255, 0.9)',
-                    lineHeight: 1.7,
-                    mb: 1,
-                  }}
-                >
-                  "Noel is highly experienced in Frontend and UI development. He's well-versed in frontend concepts and state management, able to debug code effortlessly. His ability to quickly learn and adapt to new challenges is remarkable. He communicates complex ideas clearly and is a pleasure to work with."
-                </Typography>
-                <Typography 
-                  variant="subtitle2" 
-                  sx={{
-                    color: 'rgba(255, 255, 255, 0.7)',
-                    textAlign: 'right',
-                  }}
-                >
-                  — Hansel Presley Saldanha, Software Developer at GMU CPH
-                </Typography>
-              </Box>
-            </Box>
-
-            <Box sx={{ mt: 4 }}>
-              <Typography 
-                variant="h6"
-                sx={{
-                  color: 'white',
-                  mb: 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 1,
-                }}
-              >
-                <Box 
-                  component="span" 
-                  sx={{ 
-                    width: '8px', 
-                    height: '8px', 
-                    borderRadius: '50%',
-                    background: 'linear-gradient(120deg, rgba(132, 250, 176, 0.9) 0%, rgba(143, 211, 244, 0.9) 100%)',
-                  }} 
-                />
-                What I Do
-              </Typography>
-              
-              <Box 
-                sx={{
-                  display: 'grid',
-                  gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
-                  gap: 2,
-                  mt: 2,
-                }}
-              >
-                {[
-                  { 
-                    title: 'Mobile App Development', 
-                    desc: 'Building Mobile Applications for Android and iOS and publishing them to Play Store and App Store' 
-                  },
-                  { 
-                    title: 'Web Development', 
-                    desc: 'Building websites for clients as per requirements and publishing them on domain' 
-                  },
-                  { 
-                    title: 'Content Management', 
-                    desc: 'Updating content on website based on the requirements' 
-                  },
-                  { 
-                    title: 'Software Consulting', 
-                    desc: 'Meeting with clients to understand their requirements and assisting them in software development' 
-                  },
-                ].map((item, index) => (
-                  <motion.div
-                    key={index}
-                    whileHover={{ y: -5 }}
-                    transition={{ type: 'spring', stiffness: 300 }}
-                  >
-                    <Box
-                      sx={{
-                        p: 2,
-                        borderRadius: '12px',
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        border: '1px solid rgba(255, 255, 255, 0.1)',
-                        height: '100%',
-                        transition: 'all 0.3s ease',
-                        '&:hover': {
-                          background: 'rgba(255, 255, 255, 0.08)',
-                          transform: 'translateY(-2px)',
-                        },
-                      }}
-                    >
-                      <Typography 
-                        variant="subtitle1" 
-                        sx={{ 
-                          color: 'white',
-                          fontWeight: 500,
-                          mb: 0.5,
-                        }}
-                      >
-                        {item.title}
-                      </Typography>
-                      <Typography 
-                        variant="body2" 
-                        sx={{ 
-                          color: 'rgba(255, 255, 255, 0.7)',
-                          fontSize: '0.9rem',
-                        }}
-                      >
-                        {item.desc}
-                      </Typography>
-                    </Box>
-                  </motion.div>
-                ))}
-              </Box>
-            </Box>
-          </GlassBox>
-        </motion.div>
-      </Container>
-    </Box>
+          <span className="material-symbols-outlined text-text-cream group-hover:text-primary transition-colors -rotate-90">
+            arrow_forward
+          </span>
+          <div className="absolute -top-1 -right-1 size-3 bg-primary rounded-full animate-pulse"></div>
+        </a>
+      </main>
+    </>
   );
 };
 

@@ -19,10 +19,6 @@ function App() {
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
-        
-        {/* Global Components */}
-        <SocialMediaIcons />
-        <MusicPlayer />
       </Box>
     </Router>
   );

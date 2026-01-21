@@ -1,514 +1,342 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Box, Typography, Button, Grid, useMediaQuery, useTheme, IconButton, Tooltip } from '@mui/material';
-import { ArrowBackIos, ArrowForwardIos, GitHub, Download } from '@mui/icons-material';
-import { motion, AnimatePresence, useAnimation } from 'framer-motion';
-import { useSwipeable } from 'react-swipeable';
-import Navbar from '../components/Navbar';
-import GlassBox from '../components/GlassBox';
-import bg from '../assets/images/background_1.webp';
-import { projects } from '../data/projects';
-
-const ANIMATION_DURATION = 0.3;
-const STAGGER_DELAY = 0.1;
-
-const ProjectCard = React.memo(({ project, currentImageIndex, onImageChange }) => (
-  <>
-    <motion.div
-      initial={{ opacity: 0, x: -50 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: ANIMATION_DURATION }}
-    >
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-        <Typography
-          component="h2"
-          variant="h4"
-          sx={{
-            color: 'white',
-            fontWeight: 600,
-            background: 'linear-gradient(120deg, rgba(132, 250, 176, 0.9) 0%, rgba(143, 211, 244, 0.9) 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-            textFillColor: 'transparent',
-            backgroundSize: '200% auto',
-            animation: 'gradient 8s ease infinite',
-            '@keyframes gradient': {
-              '0%': { backgroundPosition: '0% 50%' },
-              '50%': { backgroundPosition: '100% 50%' },
-              '100%': { backgroundPosition: '0% 50%' },
-            },
-          }}
-        >
-          {project.title}
-        </Typography>
-        <Box sx={{ display: 'flex', gap: 1 }}>
-          {project.code && (
-            <Tooltip title="View on GitHub">
-              <IconButton 
-                href={project.code} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                sx={{
-                  color: 'rgba(255, 255, 255, 0.8)',
-                  '&:hover': {
-                    color: 'rgba(132, 250, 176, 0.9)',
-                    transform: 'translateY(-2px)',
-                  },
-                  transition: 'all 0.3s ease',
-                }}
-              >
-                <GitHub />
-              </IconButton>
-            </Tooltip>
-          )}
-          {/* {project.demo && (
-            <Tooltip title="Download App">
-              <IconButton 
-                href={project.demo} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                sx={{
-                  color: 'rgba(255, 255, 255, 0.8)',
-                  '&:hover': {
-                    color: 'rgba(143, 211, 244, 0.9)',
-                    transform: 'translateY(-2px)',
-                  },
-                  transition: 'all 0.3s ease',
-                }}
-              >
-                <Download />
-              </IconButton>
-            </Tooltip>
-          )} */}
-        </Box>
-      </Box>
-      <Typography
-        variant="body1"
-        sx={{
-          color: 'rgba(255, 255, 255, 0.8)',
-          mb: 4,
-          lineHeight: 1.7,
-        }}
-      >
-        {project.description}
-      </Typography>
-    </motion.div>
-
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: ANIMATION_DURATION, delay: ANIMATION_DURATION }}
-    >
-      <Box sx={{ mb: 4 }}>
-        <Typography
-          variant="subtitle2"
-          component="h3"
-          sx={{
-            color: 'rgba(255, 255, 255, 0.6)',
-            mb: 1,
-            textTransform: 'uppercase',
-            letterSpacing: '1px',
-            fontSize: '0.8rem',
-          }}
-        >
-          Technologies Used
-        </Typography>
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 3 }}>
-          {project.tags.map((tag, index) => (
-            <motion.div
-              key={tag}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                delay: ANIMATION_DURATION + (index * STAGGER_DELAY),
-                duration: ANIMATION_DURATION
-              }}
-            >
-              <Box
-                component="span"
-                sx={{
-                  px: 2,
-                  py: 0.75,
-                  borderRadius: '12px',
-                  background: 'rgba(132, 250, 176, 0.08)',
-                  color: '#e1f7ec',
-                  fontSize: '0.8rem',
-                  fontWeight: 500,
-                  border: '1px solid rgba(132, 250, 176, 0.15)',
-                  display: 'inline-block',
-                  '&:hover': {
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 4px 15px rgba(132, 250, 176, 0.1)',
-                    background: 'rgba(132, 250, 176, 0.12)',
-                  },
-                  transition: 'all 0.3s ease',
-                }}
-              >
-                {tag}
-              </Box>
-            </motion.div>
-          ))}
-        </Box>
-      </Box>
-    </motion.div>
-  </>
-));
-
-const ProjectPreview = ({ project, currentImageIndex, onImageChange }) => {
-  return (
-    <motion.div
-      style={{
-        perspective: '1000px',
-        width: '100%',
-        height: '400px',
-      }}
-    >
-      <motion.div
-        style={{
-          width: '100%',
-          height: '100%',
-          position: 'relative',
-        }}
-        drag="x"
-        dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-        onDragEnd={(e, { offset, velocity }) => {
-          const threshold = 100;
-          if (offset.x > threshold) {
-            onImageChange(currentImageIndex - 1);
-          } else if (offset.x < -threshold) {
-            onImageChange(currentImageIndex + 1);
-          }
-        }}
-      >
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={project.id}
-            style={{
-              position: 'relative',
-              width: '100%',
-              height: '100%',
-              minHeight: '300px',
-              borderRadius: '16px',
-              overflow: 'hidden',
-              background: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              backdropFilter: 'blur(10px)',
-              boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: ANIMATION_DURATION }}
-          >
-            <motion.img
-              key={project.images[currentImageIndex]}
-              src={project.images[currentImageIndex]}
-              alt={`${project.title} preview`}
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                objectPosition: 'center',
-              }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: ANIMATION_DURATION }}
-            />
-            
-            {/* Navigation Arrows */}
-            <Box
-              sx={{
-                position: 'absolute',
-                bottom: '20px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                display: 'flex',
-                gap: '10px',
-                zIndex: 5,
-              }}
-            >
-              {project.images.map((_, index) => (
-                <motion.div
-                  key={index}
-                  onClick={() => onImageChange(index)}
-                  style={{
-                    width: '10px',
-                    height: '10px',
-                    borderRadius: '50%',
-                    background: index === currentImageIndex ? 'rgba(132, 250, 176, 0.9)' : 'rgba(255, 255, 255, 0.2)',
-                    cursor: 'pointer',
-                  }}
-                  whileHover={{ scale: 1.2 }}
-                  whileTap={{ scale: 0.9 }}
-                />
-              ))}
-            </Box>
-          </motion.div>
-        </AnimatePresence>
-      </motion.div>
-    </motion.div>
-  );
-};
-
-const ProjectNavigation = ({ currentIndex, total, onNext, onPrev }) => {
-  return (
-    <Box
-      component="nav"
-      sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        mt: 4,
-        pt: 3,
-        borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-      }}
-    >
-      <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.6)' }}>
-        {currentIndex + 1} / {total}
-      </Typography>
-      <Box sx={{ display: 'flex', gap: 2 }}>
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <Button
-            onClick={onPrev}
-            variant="outlined"
-            size="small"
-            startIcon={<ArrowBackIos />}
-            sx={{
-              color: 'white',
-              borderColor: 'rgba(184, 225, 255, 0.3)',
-              '&:hover': {
-                borderColor: '#b8e1ff',
-                background: 'rgba(184, 225, 255, 0.1)',
-                color: 'white',
-              },
-              transition: 'all 0.3s ease',
-            }}
-          >
-            Previous
-          </Button>
-        </motion.div>
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <Button
-            onClick={onNext}
-            variant="contained"
-            size="small"
-            endIcon={<ArrowForwardIos />}
-            sx={{
-              background: 'linear-gradient(120deg, rgba(132, 250, 176, 0.9) 0%, rgba(143, 211, 244, 0.9) 100%)',
-              color: '#0a1929',
-              '&:hover': {
-                transform: 'translateY(-2px)',
-                boxShadow: '0 4px 15px rgba(132, 250, 176, 0.3)',
-              },
-              transition: 'all 0.3s ease',
-            }}
-          >
-            Next
-          </Button>
-        </motion.div>
-      </Box>
-    </Box>
-  );
-};
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Portfolio = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const controls = useAnimation();
-  
-  const currentProject = projects[currentProjectIndex];
-
-  // Auto-rotate images
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex(prev => 
-        prev === currentProject.images.length - 1 ? 0 : prev + 1
-      );
-    }, 5000);
-    
-    return () => clearInterval(interval);
-  }, [currentProject.images.length]);
-
-  // Reset image index when project changes
-  useEffect(() => {
-    setCurrentImageIndex(0);
-  }, [currentProjectIndex]);
-
-  const nextProject = useCallback(() => {
-    setCurrentProjectIndex(prev => (prev + 1) % projects.length);
-  }, []);
-
-  const prevProject = useCallback(() => {
-    setCurrentProjectIndex(prev => (prev - 1 + projects.length) % projects.length);
-  }, []);
-
-  // Swipe handlers
-  const swipeHandlers = useSwipeable({
-    onSwipedLeft: () => nextProject(),
-    onSwipedRight: () => prevProject(),
-    preventDefaultTouchmoveEvent: true,
-    trackMouse: true
-  });
-
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'ArrowRight') nextProject();
-      if (e.key === 'ArrowLeft') prevProject();
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [nextProject, prevProject]);
-
   return (
-    <Box
-      component="main"
-      sx={{
-        minHeight: '100vh',
-        position: 'relative',
-        overflow: 'hidden',
-        '&::before': {
-          content: '""',
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: `url(${bg})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          backgroundAttachment: 'fixed',
-          zIndex: 1,
-        },
-        '&::after': {
-          content: '""',
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.7)',
-          backdropFilter: 'blur(5px)',
-          zIndex: 2,
-        }
-      }}
-    >
-      <Navbar />
-      <Box
-        sx={{
-          position: 'relative',
-          zIndex: 3,
-          minHeight: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          pt: { xs: '120px', md: '150px' },
-          pb: { xs: '80px', md: '100px' },
-          px: { xs: 2, sm: 4, md: 6, lg: 8 },
-        }}
-      >
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          style={{ width: '100%', maxWidth: '1400px', margin: '0 auto' }}
-        >
-          <GlassBox
-            component="article"
-            aria-labelledby="project-title"
-            sx={{
-              p: { xs: 3, md: 4 },
-              width: '100%',
-              minHeight: isMobile ? 'auto' : '600px',
-              display: 'flex',
-              flexDirection: 'column',
-              overflow: 'hidden',
-            }}
-            {...swipeHandlers}
-          >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentProject.id}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: ANIMATION_DURATION }}
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: '100%',
-                  flex: 1,
-                }}
-              >
-                <Box sx={{ 
-                  display: 'flex', 
-                  flexDirection: isMobile ? 'column' : 'row',
-                  flex: 1,
-                  minHeight: 0,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                  {/* Left Side - Project Info */}
-                  <Box sx={{ 
-                    width: isMobile ? '100%' : '50%',
-                    pr: isMobile ? 0 : 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: '100%',
-                    overflowY: 'auto',
-                  }}>
-                    <ProjectCard 
-                      project={currentProject} 
-                      currentImageIndex={currentImageIndex}
-                      onImageChange={setCurrentImageIndex}
-                    />
-                    <Box sx={{ mt: 'auto', pt: 2 }}>
-                      <ProjectNavigation 
-                        currentIndex={currentProjectIndex}
-                        total={projects.length}
-                        onNext={nextProject}
-                        onPrev={prevProject}
-                      />
-                    </Box>
-                  </Box>
+    <>
 
-                  {/* Right Side - Project Preview */}
-                  {/* <Box sx={{ 
-                    width: isMobile ? '100%' : '50%',
-                    pl: isMobile ? 0 : 2,
-                    pt: isMobile ? 4 : 0,
-                    height: '100%',
-                    minHeight: isMobile ? '400px' : 'auto',
-                  }}>
-                    <ProjectPreview 
-                      project={currentProject} 
-                      currentImageIndex={currentImageIndex}
-                      onImageChange={setCurrentImageIndex}
-                    />
-                  </Box> */}
-                </Box>
-              </motion.div>
-            </AnimatePresence>
-          </GlassBox>
-        </motion.div>
-      </Box>
-    </Box>
+      {/* Architectural Vertical Grid Lines (Background) */}
+      <div className="fixed inset-0 pointer-events-none z-0 flex justify-center w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full h-full border-l border-r border-[#ffffff05] grid grid-cols-4 gap-4">
+          <div className="hidden sm:block border-r border-[#ffffff05] h-full"></div>
+          <div className="hidden md:block border-r border-[#ffffff05] h-full"></div>
+          <div className="hidden lg:block border-r border-[#ffffff05] h-full"></div>
+        </div>
+      </div>
+
+      {/* Sticky Navigation */}
+      <nav className="fixed top-0 left-0 w-full z-40 bg-background-dark/90 backdrop-blur-sm border-b border-border-subtle">
+        <div className="max-w-[1440px] mx-auto px-6 py-4 flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold tracking-widest text-text-gray font-sans uppercase">
+              Fig. 02
+            </span>
+            <span className="w-px h-4 bg-primary mx-2"></span>
+            <Link
+              to="/"
+              className="text-sm font-bold tracking-wider text-text-cream hover:text-primary transition-colors duration-200"
+            >
+              [ NOEL PINTO ]
+            </Link>
+          </div>
+          <div className="hidden md:flex gap-8">
+            <Link className="group flex flex-col items-center" to="/portfolio">
+              <span className="text-xs font-medium tracking-[0.2em] text-white transition-colors">
+                WORKS
+              </span>
+              <span className="w-full h-[1px] bg-primary mt-1"></span>
+            </Link>
+            <Link className="group flex flex-col items-center" to="/about">
+              <span className="text-xs font-medium tracking-[0.2em] text-text-gray group-hover:text-white transition-colors">
+                ABOUT
+              </span>
+              <span className="w-0 group-hover:w-full h-[1px] bg-primary transition-all duration-300 mt-1"></span>
+            </Link>
+            <Link className="group flex flex-col items-center" to="/contact">
+              <span className="text-xs font-medium tracking-[0.2em] text-text-gray group-hover:text-white transition-colors">
+                CONTACT
+              </span>
+              <span className="w-0 group-hover:w-full h-[1px] bg-primary transition-all duration-300 mt-1"></span>
+            </Link>
+          </div>
+          <button className="md:hidden text-white">
+            <span className="material-symbols-outlined">menu</span>
+          </button>
+        </div>
+      </nav>
+
+      {/* Main Content Wrapper */}
+      <main className="relative z-10 pt-20 flex flex-col items-center w-full min-h-screen">
+        {/* Hero Section */}
+        <section className="w-full max-w-[1200px] px-6 py-24 md:pt-32 md:pb-16 relative">
+          <div className="absolute top-10 right-6 md:right-0 text-[10px] text-text-gray font-mono tracking-widest border border-border-subtle px-2 py-1">
+            ARCHIVE: 2018-24
+          </div>
+          <div className="flex flex-col gap-2">
+            <h2 className="text-primary text-xs font-bold tracking-[0.4em] uppercase font-sans mb-2 pl-1">
+              Selected Engineering Cases
+            </h2>
+            <h1 className="text-7xl md:text-9xl font-display font-black leading-[0.8] tracking-tighter text-text-cream mix-blend-screen">
+              WORKS<span className="text-primary">.</span>
+            </h1>
+          </div>
+          <div className="h-px w-full bg-border-subtle mt-16 technical-border"></div>
+        </section>
+
+        {/* Projects Section */}
+        <section className="w-full max-w-[1200px] px-6 pb-32">
+          <div className="flex flex-col gap-16 md:gap-32">
+            {/* Project 01 - QUANTUM_BANK */}
+            <div className="group relative">
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                <div className="md:col-span-5 order-2 md:order-1">
+                  <div className="mb-6">
+                    <span className="text-primary font-mono text-sm font-bold tracking-widest block mb-4">
+                      [ 01 ] "QUANTUM_BANK" // FINTECH
+                    </span>
+                    <div className="flex gap-4 mb-4">
+                      <div className="flex flex-col">
+                        <span className="text-[9px] text-text-gray uppercase tracking-widest font-mono">
+                          Tech Stack
+                        </span>
+                        <span className="text-xs font-bold text-text-cream tracking-wider uppercase">
+                          SwiftUI / Combine / MVVM
+                        </span>
+                      </div>
+                      <div className="w-px h-8 bg-border-subtle mx-2"></div>
+                      <div className="flex flex-col">
+                        <span className="text-[9px] text-text-gray uppercase tracking-widest font-mono">
+                          Year
+                        </span>
+                        <span className="text-xs font-bold text-text-cream tracking-wider uppercase">
+                          2024
+                        </span>
+                      </div>
+                    </div>
+                    <p className="text-text-gray text-sm leading-relaxed max-w-md">
+                      High-performance banking application focusing on real-time
+                      transaction processing and biometrically secured wallet
+                      architectures.
+                    </p>
+                  </div>
+                  <a
+                    className="inline-flex items-center gap-2 px-4 py-2 border border-primary/40 text-primary text-xs font-bold tracking-widest hover:bg-primary hover:text-white transition-all duration-300"
+                    href="#"
+                  >
+                    VIEW CASE STUDY{" "}
+                    <span className="material-symbols-outlined text-sm">
+                      arrow_outward
+                    </span>
+                  </a>
+                </div>
+                <div className="md:col-span-7 order-1 md:order-2 flex justify-center md:justify-end">
+                  <div className="relative w-[280px] h-[580px] bg-surface-dark rounded-[3rem] device-frame overflow-hidden group-hover:scale-[1.02] transition-transform duration-500">
+                    <div className="absolute inset-0 bg-[#0a0a0a] flex flex-col p-6">
+                      <div className="w-12 h-1 bg-white/20 rounded-full self-center mb-8"></div>
+                      <div className="w-full h-32 bg-primary/10 rounded-2xl mb-4 border border-primary/20 flex flex-col p-4 justify-between">
+                        <div className="h-2 w-16 bg-primary/40 rounded"></div>
+                        <div className="h-6 w-32 bg-primary/80 rounded"></div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="h-24 bg-surface-dark/50 rounded-2xl border border-white/5"></div>
+                        <div className="h-24 bg-surface-dark/50 rounded-2xl border border-white/5"></div>
+                      </div>
+                      <div className="mt-4 h-48 bg-surface-dark/50 rounded-2xl border border-white/5"></div>
+                    </div>
+                    <div className="absolute inset-0 diagonal-stripe-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none flex items-center justify-center">
+                      <div className="bg-primary text-white font-mono font-bold text-xs tracking-widest py-2 px-4 shadow-2xl">
+                        OPEN_ARCHIVE
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-16 h-px w-full dashed-separator"></div>
+            </div>
+
+            {/* Project 02 - FLUX_STREAM */}
+            <div className="group relative">
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                <div className="md:col-span-7 flex justify-center md:justify-start">
+                  <div className="relative w-[280px] h-[580px] bg-surface-dark rounded-[3rem] device-frame overflow-hidden group-hover:scale-[1.02] transition-transform duration-500">
+                    <div className="absolute inset-0 bg-[#0a0a0a] flex flex-col p-6">
+                      <div className="w-12 h-1 bg-white/20 rounded-full self-center mb-8"></div>
+                      <div className="flex items-center gap-4 mb-8">
+                        <div className="size-12 rounded-full bg-text-cream/10"></div>
+                        <div className="space-y-2">
+                          <div className="h-2 w-24 bg-text-cream/40 rounded"></div>
+                          <div className="h-2 w-16 bg-text-cream/20 rounded"></div>
+                        </div>
+                      </div>
+                      <div className="space-y-4">
+                        <div className="h-12 w-full border-b border-white/10 flex items-center justify-between">
+                          <div className="h-2 w-20 bg-white/20"></div>
+                          <div className="h-4 w-4 rounded-full bg-primary/40"></div>
+                        </div>
+                        <div className="h-12 w-full border-b border-white/10 flex items-center justify-between">
+                          <div className="h-2 w-32 bg-white/20"></div>
+                          <div className="h-4 w-4 rounded-full bg-primary/40"></div>
+                        </div>
+                        <div className="h-12 w-full border-b border-white/10 flex items-center justify-between">
+                          <div className="h-2 w-24 bg-white/20"></div>
+                          <div className="h-4 w-4 rounded-full bg-primary/40"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="absolute inset-0 diagonal-stripe-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none flex items-center justify-center">
+                      <div className="bg-primary text-white font-mono font-bold text-xs tracking-widest py-2 px-4 shadow-2xl">
+                        EXPLORE_UX
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="md:col-span-5">
+                  <div className="mb-6">
+                    <span className="text-primary font-mono text-sm font-bold tracking-widest block mb-4">
+                      [ 02 ] "FLUX_STREAM" // MULTIMEDIA
+                    </span>
+                    <div className="flex gap-4 mb-4">
+                      <div className="flex flex-col">
+                        <span className="text-[9px] text-text-gray uppercase tracking-widest font-mono">
+                          Tech Stack
+                        </span>
+                        <span className="text-xs font-bold text-text-cream tracking-wider uppercase">
+                          Flutter / Dart / Firebase
+                        </span>
+                      </div>
+                      <div className="w-px h-8 bg-border-subtle mx-2"></div>
+                      <div className="flex flex-col">
+                        <span className="text-[9px] text-text-gray uppercase tracking-widest font-mono">
+                          Year
+                        </span>
+                        <span className="text-xs font-bold text-text-cream tracking-wider uppercase">
+                          2023
+                        </span>
+                      </div>
+                    </div>
+                    <p className="text-text-gray text-sm leading-relaxed max-w-md">
+                      A decentralized media streaming engine built for creators,
+                      featuring sub-second latency and custom video encoding
+                      pipelines.
+                    </p>
+                  </div>
+                  <a
+                    className="inline-flex items-center gap-2 px-4 py-2 border border-primary/40 text-primary text-xs font-bold tracking-widest hover:bg-primary hover:text-white transition-all duration-300"
+                    href="#"
+                  >
+                    VIEW CASE STUDY{" "}
+                    <span className="material-symbols-outlined text-sm">
+                      arrow_outward
+                    </span>
+                  </a>
+                </div>
+              </div>
+              <div className="mt-16 h-px w-full dashed-separator"></div>
+            </div>
+
+            {/* Project 03 - URBAN_METER */}
+            <div className="group relative">
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                <div className="md:col-span-5 order-2 md:order-1">
+                  <div className="mb-6">
+                    <span className="text-primary font-mono text-sm font-bold tracking-widest block mb-4">
+                      [ 03 ] "URBAN_METER" // LOGISTICS
+                    </span>
+                    <div className="flex gap-4 mb-4">
+                      <div className="flex flex-col">
+                        <span className="text-[9px] text-text-gray uppercase tracking-widest font-mono">
+                          Tech Stack
+                        </span>
+                        <span className="text-xs font-bold text-text-cream tracking-wider uppercase">
+                          Kotlin / Jetpack Compose
+                        </span>
+                      </div>
+                      <div className="w-px h-8 bg-border-subtle mx-2"></div>
+                      <div className="flex flex-col">
+                        <span className="text-[9px] text-text-gray uppercase tracking-widest font-mono">
+                          Year
+                        </span>
+                        <span className="text-xs font-bold text-text-cream tracking-wider uppercase">
+                          2022
+                        </span>
+                      </div>
+                    </div>
+                    <p className="text-text-gray text-sm leading-relaxed max-w-md">
+                      Real-time fleet management system for metropolitan
+                      logistics, optimized for offline-first data synchronization.
+                    </p>
+                  </div>
+                  <a
+                    className="inline-flex items-center gap-2 px-4 py-2 border border-primary/40 text-primary text-xs font-bold tracking-widest hover:bg-primary hover:text-white transition-all duration-300"
+                    href="#"
+                  >
+                    VIEW CASE STUDY{" "}
+                    <span className="material-symbols-outlined text-sm">
+                      arrow_outward
+                    </span>
+                  </a>
+                </div>
+                <div className="md:col-span-7 order-1 md:order-2 flex justify-center md:justify-end">
+                  <div className="relative w-[280px] h-[580px] bg-surface-dark rounded-[3rem] device-frame overflow-hidden group-hover:scale-[1.02] transition-transform duration-500">
+                    <div className="absolute inset-0 bg-[#0a0a0a] flex flex-col items-center justify-center p-6">
+                      <div className="w-12 h-1 bg-white/20 rounded-full absolute top-6"></div>
+                      <div className="size-48 border-[12px] border-primary/20 rounded-full flex items-center justify-center relative">
+                        <div className="size-40 border-4 border-dashed border-primary/40 rounded-full animate-[spin_10s_linear_infinite]"></div>
+                        <div className="absolute inset-0 flex flex-col items-center justify-center">
+                          <div className="text-primary text-4xl font-display font-black">
+                            74%
+                          </div>
+                          <div className="text-[8px] text-white/40 tracking-widest font-mono">
+                            ACTIVE_FLEET
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="absolute inset-0 diagonal-stripe-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none flex items-center justify-center">
+                      <div className="bg-primary text-white font-mono font-bold text-xs tracking-widest py-2 px-4 shadow-2xl">
+                        ANALYZE_DATA
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Footer */}
+        <footer className="w-full border-t border-border-subtle bg-background-dark/50 backdrop-blur-sm z-20">
+          <div className="max-w-[1440px] mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+            <div className="flex flex-col gap-4">
+              <h2 className="text-text-cream text-2xl font-display font-bold tracking-tight">
+                Ready to start the next build?
+              </h2>
+              <a
+                className="text-primary text-lg font-sans font-bold hover:underline decoration-2 underline-offset-4 decoration-primary/50"
+                href="mailto:hello@noelpinto.com"
+              >
+                hello@noelpinto.com
+              </a>
+            </div>
+            <div className="flex flex-col items-start md:items-end gap-2 text-text-gray text-xs font-mono tracking-widest">
+              <div className="flex gap-4">
+                <a className="hover:text-primary transition-colors" href="#">
+                  [ LINKEDIN ]
+                </a>
+                <a className="hover:text-primary transition-colors" href="#">
+                  [ GITHUB ]
+                </a>
+                <a className="hover:text-primary transition-colors" href="#">
+                  [ TWITTER ]
+                </a>
+              </div>
+              <p className="mt-4 opacity-50">© 2024 NOEL PINTO. EST. MUMBAI.</p>
+            </div>
+          </div>
+        </footer>
+
+        {/* Floating Action Button / Scroll to Top */}
+        <a
+          className="fixed bottom-8 right-8 z-50 group flex items-center justify-center size-14 rounded-full border border-border-subtle bg-background-dark/80 backdrop-blur hover:border-primary transition-colors"
+          href="#"
+        >
+          <span className="material-symbols-outlined text-text-cream group-hover:text-primary transition-colors -rotate-90">
+            arrow_forward
+          </span>
+          <div className="absolute -top-1 -right-1 size-2 bg-primary rounded-full"></div>
+        </a>
+      </main>
+    </>
   );
 };
 
