@@ -16,6 +16,7 @@ const Home = () => {
   });
   const [activeSection, setActiveSection] = useState("hero");
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -221,10 +222,44 @@ const Home = () => {
               ))}
             </nav>
 
-            <button className="md:hidden flex flex-col gap-1.5 p-2 group">
-              <span className="w-5 h-0.5 bg-text-cream group-hover:bg-primary transition-colors"></span>
-              <span className="w-3 h-0.5 bg-primary"></span>
+            <button 
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden flex flex-col gap-1.5 p-2 group z-50"
+              aria-label="Toggle menu"
+            >
+              <span className={`w-5 h-0.5 bg-text-cream transition-all duration-300 ${
+                mobileMenuOpen ? 'rotate-45 translate-y-2' : ''
+              }`}></span>
+              <span className={`w-5 h-0.5 bg-primary transition-all duration-300 ${
+                mobileMenuOpen ? 'opacity-0' : ''
+              }`}></span>
+              <span className={`w-5 h-0.5 bg-text-cream transition-all duration-300 ${
+                mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''
+              }`}></span>
             </button>
+          </div>
+
+          {/* Mobile Menu */}
+          <div className={`md:hidden fixed inset-0 bg-background-dark/95 backdrop-blur-xl transition-all duration-300 ${
+            mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          }`} style={{ top: isScrolled ? '60px' : '68px' }}>
+            <nav className="flex flex-col items-center justify-center h-full gap-8 px-6">
+              {navItems.map((item, index) => (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`text-2xl font-bold tracking-wide transition-all duration-300 ${
+                    activeSection === item.id ? 'text-primary' : 'text-text-cream'
+                  }`}
+                  style={{
+                    transitionDelay: mobileMenuOpen ? `${index * 50}ms` : '0ms'
+                  }}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </nav>
           </div>
         </header>
 
