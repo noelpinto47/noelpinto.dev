@@ -26,6 +26,7 @@ const Home = () => {
       mouseControls: true,
       touchControls: true,
       gyroControls: false,
+      showLines: false,
       minHeight: 200.00,
       minWidth: 200.00,
       scale: 1.00,
