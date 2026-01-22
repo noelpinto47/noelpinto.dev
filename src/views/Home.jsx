@@ -128,35 +128,39 @@ const Home = () => {
   const projects = [
     {
       num: "01",
-      title: "FINTECH WALLET",
-      category: "iOS / Android",
-      year: "2024",
-      desc: "Cross-platform mobile wallet with biometric authentication and real-time transaction tracking.",
-      tags: ["Flutter", "Firebase", "Stripe"],
+      title: "Chip",
+      category: "Finance Management",
+      year: "2026",
+      desc: "Comprehensive finance management application for budgeting, expense tracking, and financial analytics with real-time insights.",
+      tags: ["Banking", "Analytics", "Real-time"],
+      github: "https://github.com/noelpinto47/Chip",
     },
     {
       num: "02",
-      title: "FITNESS TRACKER",
-      category: "Native iOS",
-      year: "2024",
-      desc: "Health & fitness app with Apple Watch integration, workout analytics, and social challenges.",
-      tags: ["Swift UI", "HealthKit", "CloudKit"],
+      title: "Planora",
+      category: "Productivity",
+      year: "2025",
+      desc: "Semantic task management with AI-powered image generation capabilities, utilizing advanced vector database for intelligent visualization.",
+      tags: ["AI", "Vector DB", "Semantic Search"],
+      github: "https://github.com/noelpinto47/Planora",
     },
     {
       num: "03",
-      title: "E-COMMERCE APP",
-      category: "React Native",
-      year: "2023",
-      desc: "Full-featured shopping experience with AR product preview and one-tap checkout.",
-      tags: ["React Native", "Node.js", "AWS"],
+      title: "ChatXL",
+      category: "AI-Enabled Excel",
+      year: "2024",
+      desc: "Intelligent Excel spreadsheet enhancement with AI-powered analysis, data insights, and automation capabilities.",
+      tags: ["AI Integration", "Excel API", "Data Analysis"],
+      github: "https://github.com/noelpinto47/ChatXL",
     },
     {
       num: "04",
-      title: "SOCIAL PLATFORM",
-      category: "Android",
-      year: "2023",
-      desc: "Community-driven platform with real-time messaging, stories, and content discovery.",
-      tags: ["Kotlin", "Jetpack", "WebSocket"],
+      title: "Ecostora",
+      category: "E-Commerce",
+      year: "2024",
+      desc: "Eco-friendly marketplace dedicated to sustainable products and shopping solutions, connecting conscious consumers with green brands.",
+      tags: ["E-Commerce", "Sustainability", "Marketplace"],
+      github: "https://github.com/noelpinto47/Ecostora",
     },
   ];
 
@@ -404,9 +408,12 @@ const Home = () => {
           <div className="w-full max-w-[1200px] px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {projects.map((project, index) => (
-                <article
+                <a
                   key={index}
-                  className="group relative bg-surface-dark/30 border border-border-subtle hover:border-primary/50 transition-all duration-500 overflow-hidden"
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative bg-surface-dark/30 border border-border-subtle hover:border-primary/50 transition-all duration-500 overflow-hidden block cursor-pointer"
                 >
                   <div className="flex justify-between items-center p-6 border-b border-border-subtle/50">
                     <span className="text-4xl font-display font-bold text-primary/20 group-hover:text-primary/40 transition-colors">
@@ -451,7 +458,7 @@ const Home = () => {
                   <div className="absolute top-0 right-0 w-12 h-12 overflow-hidden">
                     <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rotate-45 translate-x-12 -translate-y-12 group-hover:bg-primary/20 transition-colors"></div>
                   </div>
-                </article>
+                </a>
               ))}
             </div>
           </div>
