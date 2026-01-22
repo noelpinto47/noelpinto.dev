@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ContactService from "../services/contactService";
 
 const Home = () => {
@@ -17,6 +17,23 @@ const Home = () => {
   const [activeSection, setActiveSection] = useState("hero");
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const vantaRef = useRef(null);
+
+  const loadScript = (src, id) =>
+    new Promise((resolve, reject) => {
+      if (id && document.getElementById(id)) {
+        resolve();
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.src = src;
+      script.id = id;
+      script.async = true;
+      script.onload = () => resolve();
+      script.onerror = (err) => reject(err);
+      document.body.appendChild(script);
+    });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,6 +53,81 @@ const Home = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    let vantaEffect;
+
+    const ensureThree = async () => {
+      if (window.THREE) return;
+      try {
+        await loadScript("/three.min.js", "three-local");
+      } catch (localErr) {
+        try {
+          await loadScript(
+            "https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js",
+            "three-cdn"
+          );
+        } catch (fallbackErr) {
+          console.error("THREE failed to load", fallbackErr);
+          throw fallbackErr;
+        }
+      }
+    };
+
+    const initVanta = async () => {
+      const loadWithFallback = async () => {
+        try {
+          await ensureThree();
+          await loadScript("/p5.min.js", "p5-local");
+          await loadScript("/vanta.topology.min.js", "vanta-local");
+        } catch (localErr) {
+          try {
+            await ensureThree();
+            await loadScript(
+              "https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js",
+              "p5-cdn"
+            );
+            await loadScript(
+              "https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.24/vanta.topology.min.js",
+              "vanta-cdn"
+            );
+          } catch (fallbackErr) {
+            console.error("Vanta scripts failed to load", fallbackErr);
+            return;
+          }
+        }
+      };
+
+      await loadWithFallback();
+
+      if (window.VANTA && vantaRef.current) {
+        vantaEffect = window.VANTA.TOPOLOGY({
+          el: vantaRef.current,
+          THREE: window.THREE,
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.0,
+          minWidth: 200.0,
+          scale: 1.0,
+          scaleMobile: 1.0,
+          color: 0x7fa876,
+          backgroundColor: 0x0b0f0e,
+          points: 9.0,
+          maxDistance: 18.0,
+          spacing: 16.0,
+        });
+      }
+    };
+
+    initVanta();
+
+    return () => {
+      if (vantaEffect && typeof vantaEffect.destroy === "function") {
+        vantaEffect.destroy();
+      }
+    };
   }, []);
 
   const handleChange = (e) => {
@@ -168,21 +260,12 @@ const Home = () => {
 
   return (
     <>
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-[0.02]"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
-          }}
-        ></div>
-        <div className="absolute top-0 left-[10%] w-px h-full bg-gradient-to-b from-transparent via-border-subtle/20 to-transparent"></div>
-        <div className="absolute top-0 left-[50%] w-px h-full bg-gradient-to-b from-transparent via-border-subtle/10 to-transparent"></div>
-        <div className="absolute top-0 left-[90%] w-px h-full bg-gradient-to-b from-transparent via-border-subtle/20 to-transparent"></div>
-        <div className="absolute top-1/4 -left-48 w-96 h-96 bg-primary/5 rounded-full blur-[150px]"></div>
-        <div className="absolute bottom-1/4 -right-48 w-96 h-96 bg-primary/3 rounded-full blur-[150px]"></div>
-      </div>
+      <div
+        ref={vantaRef}
+        className="fixed inset-0 -z-10"
+        aria-hidden="true"
+      ></div>
+      <div className="fixed inset-0 z-0 pointer-events-none bg-gradient-to-b from-background-dark/85 via-background-dark/50 to-background-dark/85"></div>
 
       <main className="bg-background-dark text-text-cream font-sans antialiased min-h-screen flex flex-col scroll-smooth relative z-10">
         <header
@@ -315,7 +398,7 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 mb-20">
+          <div className="flex flex-col sm:flex-row gap-4 mb-20 bg-background-dark/75 backdrop-blur-sm border border-border-subtle/70 px-6 py-5 rounded-xl shadow-[0_18px_55px_rgba(0,0,0,0.45)]">
             <a
               href="#projects"
               className="group relative bg-primary text-white px-8 py-4 text-xs font-bold tracking-[0.2em] uppercase overflow-hidden"
@@ -334,7 +417,7 @@ const Home = () => {
             </a>
             <a
               href="#contact"
-              className="group border border-text-cream/30 text-text-cream px-8 py-4 text-xs font-bold tracking-[0.2em] uppercase hover:border-primary hover:text-primary transition-colors"
+              className="group border border-text-cream/70 text-text-cream px-8 py-4 text-xs font-bold tracking-[0.2em] uppercase hover:border-primary hover:text-primary transition-colors"
             >
               <span className="flex items-center gap-2">
                 Get In Touch
@@ -349,7 +432,7 @@ const Home = () => {
             href="#projects"
             className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 opacity-60 hover:opacity-100 transition-opacity group"
           >
-            <span className="text-[9px] font-mono tracking-[0.2em] text-text-gray uppercase group-hover:text-primary transition-colors">
+            <span className="text-[9px] font-mono tracking-[0.2em] text-text-cream/85 uppercase group-hover:text-primary transition-colors drop-shadow-[0_3px_8px_rgba(0,0,0,0.6)]">
               Scroll to Explore
             </span>
             <div className="w-6 h-10 border border-text-gray/50 rounded-full flex justify-center pt-2 group-hover:border-primary transition-colors">
