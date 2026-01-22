@@ -128,8 +128,8 @@ const Home = () => {
   const projects = [
     {
       num: "01",
-      title: "Chip",
-      category: "Finance Management",
+      title: "Chip - Finance App",
+      category: "Finance",
       year: "2026",
       desc: "Comprehensive finance management application for budgeting, expense tracking, and financial analytics with real-time insights.",
       tags: ["Banking", "Analytics", "Real-time"],
@@ -137,7 +137,7 @@ const Home = () => {
     },
     {
       num: "02",
-      title: "Planora",
+      title: "Planora - Productivity App",
       category: "Productivity",
       year: "2025",
       desc: "Semantic task management with AI-powered image generation capabilities, utilizing advanced vector database for intelligent visualization.",
@@ -146,7 +146,7 @@ const Home = () => {
     },
     {
       num: "03",
-      title: "ChatXL",
+      title: "ChatXL - Excel Chat App",
       category: "AI-Enabled Excel",
       year: "2024",
       desc: "Intelligent Excel spreadsheet enhancement with AI-powered analysis, data insights, and automation capabilities.",
@@ -155,7 +155,7 @@ const Home = () => {
     },
     {
       num: "04",
-      title: "Ecostora",
+      title: "Ecostora - E-Commerce App",
       category: "E-Commerce",
       year: "2024",
       desc: "Eco-friendly marketplace dedicated to sustainable products and shopping solutions, connecting conscious consumers with green brands.",
@@ -413,7 +413,7 @@ const Home = () => {
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative bg-surface-dark/30 border border-border-subtle hover:border-primary/50 transition-all duration-500 overflow-hidden block cursor-pointer"
+                  className="group relative bg-surface-dark/70 border border-border-subtle hover:border-primary/50 transition-all duration-500 overflow-hidden block cursor-pointer"
                 >
                   <div className="flex justify-between items-center p-6 border-b border-border-subtle/50">
                     <span className="text-4xl font-display font-bold text-primary/20 group-hover:text-primary/40 transition-colors">
