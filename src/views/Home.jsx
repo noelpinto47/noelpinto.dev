@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ContactService from "../services/contactService";
 
 const Home = () => {
@@ -17,6 +17,26 @@ const Home = () => {
   const [activeSection, setActiveSection] = useState("hero");
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const vantaRef = useRef(null);
+
+  useEffect(() => {
+    // Initialize Vanta background
+    const vantaEffect = window.VANTA?.DOTS({
+      el: "#vanta-background",
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: 200.00,
+      minWidth: 200.00,
+      scale: 1.00,
+      scaleMobile: 1.00,
+    });
+    vantaRef.current = vantaEffect;
+
+    return () => {
+      if (vantaEffect) vantaEffect.destroy();
+    };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -168,7 +188,9 @@ const Home = () => {
 
   return (
     <>
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+      <div id="vanta-background" className="fixed inset-0 z-10"></div>
+      
+      <div className="fixed inset-0 z-20 pointer-events-none overflow-hidden">
         <div
           className="absolute inset-0 opacity-[0.02]"
           style={{
@@ -184,7 +206,7 @@ const Home = () => {
         <div className="absolute bottom-1/4 -right-48 w-96 h-96 bg-primary/3 rounded-full blur-[150px]"></div>
       </div>
 
-      <main className="bg-background-dark text-text-cream font-sans antialiased min-h-screen flex flex-col scroll-smooth relative z-10">
+      <main className="text-text-cream font-sans antialiased min-h-screen flex flex-col scroll-smooth relative z-30">
         <header
           className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
             isScrolled
