@@ -142,7 +142,8 @@ const Home = () => {
     { id: "clients", label: "Work" },
     { id: "about", label: "About" },
     { id: "contact", label: "Contact" },
-    { id: "resume", label: "Hire Me", isExternal: true },
+    { id: "journal", label: "Journal", isExternal: true, path: "/journal" },
+    { id: "resume", label: "Hire", isExternal: true, path: "/resume" },
   ];
 
   const projects = [
@@ -247,7 +248,7 @@ const Home = () => {
                 item.isExternal ? (
                   <a
                     key={item.id}
-                    href="/resume"
+                    href={item.path || "/"}
                     className="relative px-4 py-2 text-xs font-bold tracking-[0.15em] uppercase transition-all duration-300 text-text-gray hover:text-primary"
                   >
                     {item.label}
