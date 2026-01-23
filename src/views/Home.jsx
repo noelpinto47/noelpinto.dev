@@ -358,78 +358,196 @@ const Home = () => {
           </a>
         </section>
 
-        <section id="projects" className="w-full flex flex-col items-center py-32 relative">
-          <div className="absolute left-6 top-32 hidden lg:block">
-            <span className="text-[120px] font-display font-black text-text-cream/[0.02] leading-none">
-              01
-            </span>
-          </div>
-
-          <div className="w-full max-w-[1200px] px-6 mb-16">
+        <section id="projects" className="w-full flex flex-col items-center py-32">
+          {/* Section Label */}
+          <div className="w-full max-w-[1200px] px-4 mb-16">
             <div className="flex items-center gap-4">
-              <div className="h-px bg-gradient-to-r from-transparent via-border-subtle to-transparent flex-1"></div>
-              <h2 className="text-text-gray text-xs font-bold tracking-[0.2em] uppercase whitespace-nowrap flex items-center gap-2">
-                <span className="text-primary">//</span> SELECTED PROJECTS
-              </h2>
-              <div className="h-px bg-gradient-to-l from-transparent via-border-subtle to-transparent flex-1"></div>
+              <div className="h-px bg-border-subtle flex-1"></div>
+              <h4 className="text-text-gray text-xs font-bold tracking-[0.2em] uppercase whitespace-nowrap">
+                // SELECTED WORKS 2023-2024
+              </h4>
+              <div className="h-px bg-border-subtle flex-1"></div>
             </div>
-            <p className="text-center text-text-gray/60 text-sm mt-4 max-w-md mx-auto">
-              Personal and showcase projects demonstrating technical expertise
-            </p>
           </div>
 
-          <div className="w-full max-w-[1200px] px-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {projects.map((project, index) => (
-                <article
-                  key={index}
-                  className="group relative bg-surface-dark/30 border border-border-subtle hover:border-primary/50 transition-all duration-500 overflow-hidden"
-                >
-                  <div className="flex justify-between items-center p-6 border-b border-border-subtle/50">
-                    <span className="text-4xl font-display font-bold text-primary/20 group-hover:text-primary/40 transition-colors">
-                      {project.num}
+          {/* Project Grid */}
+          <div className="w-full max-w-[1200px] px-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16">
+              {/* Project Card 01 */}
+              <article className="group relative flex flex-col gap-4">
+                <div className="flex justify-between items-end border-b border-border-subtle pb-2">
+                  <span className="text-4xl font-display font-bold text-text-cream/20 group-hover:text-primary/40 transition-colors">
+                    01.
+                  </span>
+                  <div className="flex gap-2">
+                    <span className="text-[10px] uppercase tracking-wider border border-border-subtle px-2 py-0.5 text-text-gray rounded-sm group-hover:border-primary group-hover:text-primary transition-colors">
+                      SwiftUI
                     </span>
-                    <div className="text-right">
-                      <span className="text-[10px] font-mono text-text-gray tracking-wider block">
-                        {project.category}
-                      </span>
-                      <span className="text-[10px] font-mono text-primary tracking-wider">
-                        {project.year}
-                      </span>
-                    </div>
-                  </div>
-                  
-                  <div className="p-6">
-                    <h3 className="text-xl font-display font-bold text-text-cream mb-3 group-hover:text-primary transition-colors">
-                      {project.title}
-                    </h3>
-                    <p className="text-text-gray text-sm leading-relaxed mb-6">
-                      {project.desc}
-                    </p>
-                    
-                    <div className="flex flex-wrap gap-2">
-                      {project.tags.map((tag, i) => (
-                        <span
-                          key={i}
-                          className="text-[10px] font-mono px-3 py-1 border border-border-subtle text-text-gray uppercase tracking-wider"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all">
-                    <span className="material-symbols-outlined text-primary">
-                      arrow_outward
+                    <span className="text-[10px] uppercase tracking-wider border border-border-subtle px-2 py-0.5 text-text-gray rounded-sm">
+                      FinTech
                     </span>
                   </div>
-
-                  <div className="absolute top-0 right-0 w-12 h-12 overflow-hidden">
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rotate-45 translate-x-12 -translate-y-12 group-hover:bg-primary/20 transition-colors"></div>
+                </div>
+                <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface-dark border border-border-subtle group-hover:border-primary transition-all duration-500 rounded-sm">
+                  <div className="absolute top-3 left-3 z-10 bg-background-dark/80 backdrop-blur px-2 py-1 text-[9px] text-primary font-mono border border-primary/20">
+                    IMG_SRC: APP_DASHBOARD
                   </div>
-                </article>
-              ))}
+                  <div
+                    className="w-full h-full bg-cover bg-center transition-all duration-700 grayscale group-hover:grayscale-0 group-hover:scale-105"
+                    style={{
+                      backgroundImage:
+                        "url('https://lh3.googleusercontent.com/aida-public/AB6AXuCRDf6bpV_q-coV0VHdAw06bqeA82oQKno_XuS_CSeyMg7wjb9wiednZxBbKF_-19nqw8okh4jglmo9dAMo5puJhJsE4ADd_VknOKb_Brz01_HWiplqsSxDwwwCI3kZG6f7IUk71xI2yd6AF2DlXKgJRczvrJlUI-ka2o8aSVQ5V6AWlMBNh1KPhYtGqGJruheKRBdiTEzHYtBVoK5_n99C3wY9FUDtzVT9fwYB4BlhT5CQDSwPT-JvKhwEwvcQWOw3CGrjvMt1ke-e')",
+                    }}
+                  >
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                    <div className="bg-primary text-white text-xs font-bold px-4 py-2 tracking-widest uppercase shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                      [ View Case Study ]
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-1 mt-2">
+                  <h3 className="text-2xl font-display text-text-cream font-bold group-hover:text-primary transition-colors">
+                    FinTech Pro
+                  </h3>
+                  <p className="text-sm text-text-gray font-light max-w-sm">
+                    A complete overhaul of the banking experience for Gen Z users, focusing on micro-interactions and data visualization.
+                  </p>
+                </div>
+              </article>
+
+              {/* Project Card 02 */}
+              <article className="group relative flex flex-col gap-4 md:mt-24">
+                <div className="flex justify-between items-end border-b border-border-subtle pb-2">
+                  <span className="text-4xl font-display font-bold text-text-cream/20 group-hover:text-primary/40 transition-colors">
+                    02.
+                  </span>
+                  <div className="flex gap-2">
+                    <span className="text-[10px] uppercase tracking-wider border border-border-subtle px-2 py-0.5 text-text-gray rounded-sm group-hover:border-primary group-hover:text-primary transition-colors">
+                      React Native
+                    </span>
+                    <span className="text-[10px] uppercase tracking-wider border border-border-subtle px-2 py-0.5 text-text-gray rounded-sm">
+                      E-Comm
+                    </span>
+                  </div>
+                </div>
+                <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface-dark border border-border-subtle group-hover:border-primary transition-all duration-500 rounded-sm">
+                  <div className="absolute top-3 left-3 z-10 bg-background-dark/80 backdrop-blur px-2 py-1 text-[9px] text-primary font-mono border border-primary/20">
+                    IMG_SRC: PRODUCT_DETAIL
+                  </div>
+                  <div
+                    className="w-full h-full bg-cover bg-center transition-all duration-700 grayscale group-hover:grayscale-0 group-hover:scale-105"
+                    style={{
+                      backgroundImage:
+                        "url('https://lh3.googleusercontent.com/aida-public/AB6AXuD6DMjTAzqavm3EeHiGqNLdr2sC5XIb8HpISTO7_hclge9Agobl7FsuimPr_gm_0fn_1OSMi10ZGCSgZ82g2ynx94x93HZ-3QqXxcA3TdL9CwbYehwa9kcGh_n3sQBcGfvqzTMVVH3sL9wxhg0hq77foIfMvz7-n9LyJR1EC3KM6YRrnLlJ8OQJacSGfqIyM3zQg99Nn--c-8V6Z0ScUbshNEiB7IqL0cF1CYaI97SbOjaIujenvbm6RfdMs3TRUrB_dN164q5vaCEo')",
+                    }}
+                  >
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                    <div className="bg-primary text-white text-xs font-bold px-4 py-2 tracking-widest uppercase shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                      [ View Case Study ]
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-1 mt-2">
+                  <h3 className="text-2xl font-display text-text-cream font-bold group-hover:text-primary transition-colors">
+                    Shopify Mod
+                  </h3>
+                  <p className="text-sm text-text-gray font-light max-w-sm">
+                    Custom mobile storefront architecture enabling high-performance browsing and AR product previews.
+                  </p>
+                </div>
+              </article>
+
+              {/* Project Card 03 */}
+              <article className="group relative flex flex-col gap-4">
+                <div className="flex justify-between items-end border-b border-border-subtle pb-2">
+                  <span className="text-4xl font-display font-bold text-text-cream/20 group-hover:text-primary/40 transition-colors">
+                    03.
+                  </span>
+                  <div className="flex gap-2">
+                    <span className="text-[10px] uppercase tracking-wider border border-border-subtle px-2 py-0.5 text-text-gray rounded-sm group-hover:border-primary group-hover:text-primary transition-colors">
+                      Flutter
+                    </span>
+                    <span className="text-[10px] uppercase tracking-wider border border-border-subtle px-2 py-0.5 text-text-gray rounded-sm">
+                      Health
+                    </span>
+                  </div>
+                </div>
+                <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface-dark border border-border-subtle group-hover:border-primary transition-all duration-500 rounded-sm">
+                  <div className="absolute top-3 left-3 z-10 bg-background-dark/80 backdrop-blur px-2 py-1 text-[9px] text-primary font-mono border border-primary/20">
+                    IMG_SRC: ACTIVITY_TRACKER
+                  </div>
+                  <div
+                    className="w-full h-full bg-cover bg-center transition-all duration-700 grayscale group-hover:grayscale-0 group-hover:scale-105"
+                    style={{
+                      backgroundImage:
+                        "url('https://lh3.googleusercontent.com/aida-public/AB6AXuDcTJPEmhrVcfbRgFMHTYdGUqSNeUAMT6iKLD0rv6ZAoUXKb6qULxBJwAeRUMYlJx7qGWWxG0cM38VhWnK-79JbUWIZaoGe_THtto-CVx5pwkJ9GKN-PcBZz2WCJA6U0YvV2tJQWmNOr2gASesqn8PJJ4QdoBdWRq62YAY8cELaXxDOCR7d1OPczWZJwzy8jBsKyjUrrAYoPxnbUA6G3siyGbaJVfFxcQ-XqBtGiLXX3OubztoFGqOr54yLZTL7ADDst2T54YOV96TB')",
+                    }}
+                  >
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                    <div className="bg-primary text-white text-xs font-bold px-4 py-2 tracking-widest uppercase shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                      [ View Case Study ]
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-1 mt-2">
+                  <h3 className="text-2xl font-display text-text-cream font-bold group-hover:text-primary transition-colors">
+                    Pulse Metrics
+                  </h3>
+                  <p className="text-sm text-text-gray font-light max-w-sm">
+                    Real-time biometric data visualization connected to wearable hardware APIs.
+                  </p>
+                </div>
+              </article>
+
+              {/* Project Card 04 */}
+              <article className="group relative flex flex-col gap-4 md:mt-24">
+                <div className="flex justify-between items-end border-b border-border-subtle pb-2">
+                  <span className="text-4xl font-display font-bold text-text-cream/20 group-hover:text-primary/40 transition-colors">
+                    04.
+                  </span>
+                  <div className="flex gap-2">
+                    <span className="text-[10px] uppercase tracking-wider border border-border-subtle px-2 py-0.5 text-text-gray rounded-sm group-hover:border-primary group-hover:text-primary transition-colors">
+                      KOTLIN
+                    </span>
+                    <span className="text-[10px] uppercase tracking-wider border border-border-subtle px-2 py-0.5 text-text-gray rounded-sm">
+                      MEDIA
+                    </span>
+                  </div>
+                </div>
+                <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface-dark border border-border-subtle group-hover:border-primary transition-all duration-500 rounded-sm">
+                  <div className="absolute top-3 left-3 z-10 bg-background-dark/80 backdrop-blur px-2 py-1 text-[9px] text-primary font-mono border border-primary/20">
+                    IMG_SRC: STREAM_PLAYER
+                  </div>
+                  <div
+                    className="w-full h-full bg-cover bg-center transition-all duration-700 grayscale group-hover:grayscale-0 group-hover:scale-105"
+                    style={{
+                      backgroundImage:
+                        "url('https://lh3.googleusercontent.com/aida-public/AB6AXuDLQufPiPcmQRSPnAfJJLs6t4SJlSyXlSFkPnnkzxiS9sMwE21XORw7Sx-jxg8xT_DMfCFILA5OP8-6c7LlwVUY5UiPfBXmWfPTXNy74b0hxG5z7f5DrZAq2ekeTYulgO0FEC-72JWiSlAGMgTmQxcmZZNf3AAKfE4G12vO1EWXNcON-T2U1wKG4kFujmKS_8W8Ie6r3C49aaog1MXpt93Kz_2cBygpDE2FmT0dt9dsDNyhVCTvRc3XhvBevAAHY3uNfsP_4AyKsI_K')",
+                    }}
+                  >
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                    <div className="bg-primary text-white text-xs font-bold px-4 py-2 tracking-widest uppercase shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                      [ View Case Study ]
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-1 mt-2">
+                  <h3 className="text-2xl font-display text-text-cream font-bold group-hover:text-primary transition-colors">
+                    Sonic Stream
+                  </h3>
+                  <p className="text-sm text-text-gray font-light max-w-sm">
+                    High-fidelity audio streaming platform with social sharing integration.
+                  </p>
+                </div>
+              </article>
             </div>
           </div>
         </section>
