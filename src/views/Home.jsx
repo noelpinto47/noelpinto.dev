@@ -977,7 +977,7 @@ const Home = () => {
         </section>
 
         <footer className="w-full border-t border-border-subtle bg-background-dark/80 backdrop-blur-sm">
-          <div className="max-w-[1440px] mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+          <div className="max-w-[1440px] mx-auto px-6 md:pl-24 py-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
             <div className="flex flex-col gap-2">
               <h2 className="text-xl font-display font-bold text-text-cream tracking-tight">
                 Let's build something <span className="text-primary">precise.</span>
@@ -1019,7 +1019,7 @@ const Home = () => {
             setScreensaverActive(true);
             setQuoteIndex(Math.floor(Math.random() * quotes.length));
           }}
-          className="fixed bottom-8 left-8 z-50 group flex items-center justify-center size-12 border border-border-subtle bg-background-dark/90 backdrop-blur hover:border-primary transition-all duration-300"
+          className="fixed bottom-8 left-8 z-50 group hidden md:flex items-center justify-center size-12 border border-border-subtle bg-background-dark/90 backdrop-blur hover:border-primary transition-all duration-300"
         >
           <img 
             src="https://img.icons8.com/color/48/fire-element--v1.png" 
