@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import ContactService from "../services/contactService";
 
 const Home = () => {
@@ -251,13 +252,13 @@ const Home = () => {
             <nav className="hidden md:flex items-center gap-1">
               {navItems.map((item) => (
                 item.isExternal ? (
-                  <a
+                  <Link
                     key={item.id}
-                    href={item.path || "/"}
+                    to={item.path || "/"}
                     className="relative px-4 py-2 text-xs font-bold tracking-[0.15em] uppercase transition-all duration-300 text-text-gray hover:text-primary"
                   >
                     {item.label}
-                  </a>
+                  </Link>
                 ) : (
                   <a
                     key={item.id}
@@ -302,19 +303,33 @@ const Home = () => {
           }`} style={{ top: isScrolled ? '60px' : '68px' }}>
             <nav className="flex flex-col items-center justify-center h-full gap-8 px-6">
               {navItems.map((item, index) => (
-                <a
-                  key={item.id}
-                  href={`#${item.id}`}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`text-2xl font-bold tracking-wide transition-all duration-300 ${
-                    activeSection === item.id ? 'text-primary' : 'text-text-cream'
-                  }`}
-                  style={{
-                    transitionDelay: mobileMenuOpen ? `${index * 50}ms` : '0ms'
-                  }}
-                >
-                  {item.label}
-                </a>
+                item.isExternal ? (
+                  <Link
+                    key={item.id}
+                    to={item.path || "/"}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-2xl font-bold tracking-wide transition-all duration-300 text-text-cream"
+                    style={{
+                      transitionDelay: mobileMenuOpen ? `${index * 50}ms` : '0ms'
+                    }}
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={item.id}
+                    href={`#${item.id}`}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`text-2xl font-bold tracking-wide transition-all duration-300 ${
+                      activeSection === item.id ? 'text-primary' : 'text-text-cream'
+                    }`}
+                    style={{
+                      transitionDelay: mobileMenuOpen ? `${index * 50}ms` : '0ms'
+                    }}
+                  >
+                    {item.label}
+                  </a>
+                )
               ))}
             </nav>
           </div>
