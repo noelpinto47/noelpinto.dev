@@ -17,6 +17,9 @@ const Home = () => {
   const [activeSection, setActiveSection] = useState("hero");
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [screensaverActive, setScreensaverActive] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [quoteIndex, setQuoteIndex] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,6 +40,43 @@ const Home = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Clock update for screensaver
+  useEffect(() => {
+    if (screensaverActive) {
+      const timer = setInterval(() => {
+        setCurrentTime(new Date());
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [screensaverActive]);
+
+  // Close screensaver on ESC key, change quote on Space/Enter
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (screensaverActive) {
+        if (e.key === 'Escape') {
+          setScreensaverActive(false);
+        } else if (e.key === ' ' || e.key === 'Enter' || e.key === 'ArrowRight') {
+          e.preventDefault();
+          setQuoteIndex((prev) => (prev + 1) % quotes.length);
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [screensaverActive]);
+
+  const quotes = [
+    "The only way to do great work is to love what you do. — Steve Jobs",
+    "Innovation distinguishes between a leader and a follower. — Steve Jobs",
+    "Code is like humor. When you have to explain it, it's bad. — Cory House",
+    "First, solve the problem. Then, write the code. — John Johnson",
+    "Simplicity is the soul of efficiency. — Austin Freeman",
+    "Make it work, make it right, make it fast. — Kent Beck",
+    "The best error message is the one that never shows up. — Thomas Fuchs",
+    "Any fool can write code that a computer can understand. Good programmers write code that humans can understand. — Martin Fowler"
+  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -102,6 +142,7 @@ const Home = () => {
     { id: "clients", label: "Work" },
     { id: "about", label: "About" },
     { id: "contact", label: "Contact" },
+    { id: "resume", label: "Hire Me", isExternal: true },
   ];
 
   const projects = [
@@ -203,22 +244,32 @@ const Home = () => {
             
             <nav className="hidden md:flex items-center gap-1">
               {navItems.map((item) => (
-                <a
-                  key={item.id}
-                  href={`#${item.id}`}
-                  className={`relative px-4 py-2 text-xs font-bold tracking-[0.15em] uppercase transition-all duration-300 ${
-                    activeSection === item.id
-                      ? "text-primary"
-                      : "text-text-gray hover:text-text-cream"
-                  }`}
-                >
-                  {item.label}
-                  <span
-                    className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-primary transition-all duration-300 ${
-                      activeSection === item.id ? "w-4" : "w-0"
+                item.isExternal ? (
+                  <a
+                    key={item.id}
+                    href="/resume"
+                    className="relative px-4 py-2 text-xs font-bold tracking-[0.15em] uppercase transition-all duration-300 text-text-gray hover:text-primary"
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <a
+                    key={item.id}
+                    href={`#${item.id}`}
+                    className={`relative px-4 py-2 text-xs font-bold tracking-[0.15em] uppercase transition-all duration-300 ${
+                      activeSection === item.id
+                        ? "text-primary"
+                        : "text-text-gray hover:text-text-cream"
                     }`}
-                  ></span>
-                </a>
+                  >
+                    {item.label}
+                    <span
+                      className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-primary transition-all duration-300 ${
+                        activeSection === item.id ? "w-4" : "w-0"
+                      }`}
+                    ></span>
+                  </a>
+                )
               ))}
             </nav>
 
@@ -961,6 +1012,80 @@ const Home = () => {
             arrow_forward
           </span>
         </a>
+
+        {/* Screensaver CTA Button */}
+        <button
+          onClick={() => {
+            setScreensaverActive(true);
+            setQuoteIndex(Math.floor(Math.random() * quotes.length));
+          }}
+          className="fixed bottom-8 left-8 z-50 group flex items-center justify-center size-12 border border-border-subtle bg-background-dark/90 backdrop-blur hover:border-primary transition-all duration-300"
+        >
+          <img 
+            src="https://img.icons8.com/color/48/fire-element--v1.png" 
+            alt="fire-element--v1"
+            className="w-6 h-6 group-hover:scale-110 transition-all duration-300"
+          />
+          <span className="absolute left-full ml-3 px-3 py-1.5 bg-background-dark border border-primary text-primary text-xs font-mono tracking-wider whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+            SCREEN SAVER
+          </span>
+        </button>
+
+        {/* Screensaver Overlay */}
+        {screensaverActive && (
+          <div 
+            className="fixed inset-0 z-[100] bg-background-dark flex flex-col cursor-pointer"
+            onClick={() => setScreensaverActive(false)}
+          >
+            {/* Top Bar */}
+            <div className="flex justify-between items-start p-8">
+              {/* Logo - Top Left */}
+              <div className="text-2xl font-display font-bold tracking-tighter text-text-cream">
+                NP<span className="text-primary">.</span>
+              </div>
+              
+              {/* Clock - Top Right */}
+              <div className="text-right">
+                <div className="text-4xl md:text-5xl font-display font-bold text-text-cream tabular-nums">
+                  {currentTime.toLocaleTimeString('en-US', { 
+                    hour: '2-digit', 
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: false 
+                  })}
+                </div>
+                <div className="text-xs text-text-gray font-mono mt-1 tracking-wider">
+                  {currentTime.toLocaleDateString('en-US', { 
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* Quote - Bottom Center */}
+            <div className="flex-1 flex items-end justify-center pb-16 px-8">
+              <div className="max-w-3xl text-center">
+                <div 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setQuoteIndex((prev) => (prev + 1) % quotes.length);
+                  }}
+                  className="cursor-pointer hover:text-primary transition-colors group"
+                >
+                  <p className="text-xl md:text-2xl text-text-cream/80 font-display italic leading-relaxed group-hover:text-text-cream">
+                    "{quotes[quoteIndex]}"
+                  </p>
+                </div>
+                <div className="mt-6 text-xs text-text-gray/50 font-mono tracking-widest">
+                  PRESS ESC OR CLICK ANYWHERE TO EXIT • SPACE/ENTER TO CHANGE QUOTE
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </>
   );
