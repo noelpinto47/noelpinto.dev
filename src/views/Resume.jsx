@@ -7,13 +7,12 @@ const Resume = () => {
       <nav className="w-full border-b-2 border-black sticky top-0 bg-white/95 backdrop-blur-sm z-50">
         <div className="max-w-[1000px] mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <Link className="font-display font-black text-2xl tracking-tighter hover:text-primary transition-colors" to="/">
-              NOEL.
+            <Link className="font-display font-black text-2xl tracking-tighter hover:text-primary transition-colors flex items-center gap-2" to="/">
+              NOEL<span className="text-primary">.</span>
+              <span className="text-xs text-gray-600 font-mono tracking-widest uppercase opacity-70">
+                Hire
+              </span>
             </Link>
-            <span className="hidden sm:inline-block w-px h-4 bg-gray-300 mx-2"></span>
-            <span className="hidden sm:inline-block text-[10px] font-bold tracking-[0.2em] uppercase text-gray-500">
-              Resume_View_V2.0
-            </span>
           </div>
           <div className="flex items-center gap-6">
             <Link className="hidden md:inline-block text-[10px] font-bold tracking-[0.2em] uppercase hover:text-primary transition-colors" to="/">

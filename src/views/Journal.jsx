@@ -58,58 +58,78 @@ const Journal = () => {
   return (
     <div className="bg-background-dark text-text-cream font-sans antialiased min-h-screen flex flex-col">
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 w-full border-b border-border-subtle bg-background-dark/95 backdrop-blur-sm px-6 py-4 md:px-10 lg:px-20">
-        <div className="flex items-center justify-between max-w-[1440px] mx-auto">
-          <div className="flex items-center gap-4">
-            <a
-              href="/"
-              className="text-xl font-display font-bold tracking-tighter text-text-cream hover:text-primary transition-colors flex items-center gap-2"
-            >
-              NP<span className="text-primary">.</span>
-              <span className="text-xs text-text-gray font-mono tracking-widest uppercase opacity-60">
-                Journal
-              </span>
-            </a>
-          </div>
+      <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-background-dark/90 backdrop-blur-xl py-3">
+        <div className="max-w-[1440px] mx-auto px-6 flex justify-between items-center">
+          <a
+            href="/"
+            className="text-xl font-display font-bold tracking-tighter text-text-cream hover:text-primary transition-colors group relative flex items-center gap-2"
+          >
+            NP<span className="text-primary">.</span>
+            <span className="text-xs text-text-gray font-mono tracking-widest uppercase opacity-60">
+              Journal
+            </span>
+            <span className="absolute -right-2 -top-1 w-1.5 h-1.5 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+          </a>
 
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-1">
             <a
               href="/"
-              className="text-text-gray hover:text-text-cream text-xs font-bold uppercase tracking-[0.15em] transition-colors"
+              className="relative px-4 py-2 text-xs font-bold tracking-[0.15em] uppercase transition-all duration-300 text-text-gray hover:text-text-cream"
+            >
+              Home
+            </a>
+            <a
+              href="/#projects"
+              className="relative px-4 py-2 text-xs font-bold tracking-[0.15em] uppercase transition-all duration-300 text-text-gray hover:text-text-cream"
+            >
+              Projects
+            </a>
+            <a
+              href="/#clients"
+              className="relative px-4 py-2 text-xs font-bold tracking-[0.15em] uppercase transition-all duration-300 text-text-gray hover:text-text-cream"
             >
               Work
             </a>
             <a
-              href="/journal"
-              className="text-primary text-xs font-bold uppercase tracking-[0.15em] border-b border-primary pb-0.5"
-            >
-              Journal
-            </a>
-            <a
               href="/#about"
-              className="text-text-gray hover:text-text-cream text-xs font-bold uppercase tracking-[0.15em] transition-colors"
+              className="relative px-4 py-2 text-xs font-bold tracking-[0.15em] uppercase transition-all duration-300 text-text-gray hover:text-text-cream"
             >
               About
             </a>
             <a
               href="/#contact"
-              className="text-text-gray hover:text-text-cream text-xs font-bold uppercase tracking-[0.15em] transition-colors"
+              className="relative px-4 py-2 text-xs font-bold tracking-[0.15em] uppercase transition-all duration-300 text-text-gray hover:text-text-cream"
             >
               Contact
             </a>
+            <a
+              href="/journal"
+              className="relative px-4 py-2 text-xs font-bold tracking-[0.15em] uppercase transition-all duration-300 text-primary"
+            >
+              Journal
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-primary transition-all duration-300 w-4"></span>
+            </a>
+            <a
+              href="/resume"
+              className="relative px-4 py-2 text-xs font-bold tracking-[0.15em] uppercase transition-all duration-300 text-text-gray hover:text-primary"
+            >
+              Hire
+            </a>
           </nav>
 
-          <a
-            href="/#contact"
-            className="hidden md:block px-6 py-2 bg-primary text-white text-xs font-bold uppercase tracking-[0.1em] hover:bg-primary/80 transition-colors"
+          <button 
+            className="md:hidden flex flex-col gap-1.5 p-2 group z-50"
+            aria-label="Toggle menu"
           >
-            Get in Touch
-          </a>
+            <span className="w-5 h-0.5 bg-text-cream transition-all duration-300"></span>
+            <span className="w-5 h-0.5 bg-primary transition-all duration-300"></span>
+            <span className="w-5 h-0.5 bg-text-cream transition-all duration-300"></span>
+          </button>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 flex justify-center py-20 lg:py-24 px-6 lg:px-20 pt-32">
+      <main className="flex-1 flex justify-center py-20 lg:py-24 px-6 pt-24">
         <div className="w-full max-w-[1200px] flex flex-col lg:flex-row gap-12">
           {/* Sidebar Filters */}
           <aside className="w-full lg:w-64 shrink-0">
