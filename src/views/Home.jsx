@@ -240,9 +240,11 @@ const Home = () => {
               className="text-xl font-display font-bold tracking-tighter text-text-cream hover:text-primary transition-colors group relative flex items-center gap-2"
             >
               NP<span className="text-primary">.</span>
-              <span className="text-xs text-text-gray font-mono tracking-widest uppercase opacity-60">
-                {activeSection === "hero" ? "Home" : activeSection === "projects" ? "Projects" : activeSection === "clients" ? "Work" : activeSection === "about" ? "About" : activeSection === "contact" ? "Contact" : "Home"}
-              </span>
+              {activeSection !== "hero" && (
+                <span className="text-xs text-text-gray font-mono tracking-widest uppercase opacity-60">
+                  {activeSection === "projects" ? "Projects" : activeSection === "clients" ? "Work" : activeSection === "about" ? "About" : activeSection === "contact" ? "Contact" : ""}
+                </span>
+              )}
               <span className="absolute -right-2 -top-1 w-1.5 h-1.5 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
             </a>
             
