@@ -1,8 +1,18 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Journal = () => {
+  const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState("all");
+
+  const handleNavClick = (path) => {
+    if (path.startsWith("#")) {
+      // Navigate to home with hash
+      navigate("/" + path);
+    } else {
+      navigate(path);
+    }
+  };
 
   const articles = [
     {
@@ -60,8 +70,8 @@ const Journal = () => {
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-background-dark/90 backdrop-blur-xl py-3">
         <div className="max-w-[1440px] mx-auto px-6 flex justify-between items-center">
-          <a
-            href="/"
+          <Link
+            to="/"
             className="text-xl font-display font-bold tracking-tighter text-text-cream hover:text-primary transition-colors group relative flex items-center gap-2"
           >
             NP<span className="text-primary">.</span>
@@ -69,52 +79,52 @@ const Journal = () => {
               Journal
             </span>
             <span className="absolute -right-2 -top-1 w-1.5 h-1.5 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-          </a>
+          </Link>
 
           <nav className="hidden md:flex items-center gap-1">
-            <a
-              href="/"
+            <Link
+              to="/"
               className="relative px-4 py-2 text-xs font-bold tracking-[0.15em] uppercase transition-all duration-300 text-text-gray hover:text-text-cream"
             >
               Home
-            </a>
-            <a
-              href="/#projects"
+            </Link>
+            <button
+              onClick={() => handleNavClick("#projects")}
               className="relative px-4 py-2 text-xs font-bold tracking-[0.15em] uppercase transition-all duration-300 text-text-gray hover:text-text-cream"
             >
               Projects
-            </a>
-            <a
-              href="/#clients"
+            </button>
+            <button
+              onClick={() => handleNavClick("#clients")}
               className="relative px-4 py-2 text-xs font-bold tracking-[0.15em] uppercase transition-all duration-300 text-text-gray hover:text-text-cream"
             >
               Work
-            </a>
-            <a
-              href="/#about"
+            </button>
+            <button
+              onClick={() => handleNavClick("#about")}
               className="relative px-4 py-2 text-xs font-bold tracking-[0.15em] uppercase transition-all duration-300 text-text-gray hover:text-text-cream"
             >
               About
-            </a>
-            <a
-              href="/#contact"
+            </button>
+            <button
+              onClick={() => handleNavClick("#contact")}
               className="relative px-4 py-2 text-xs font-bold tracking-[0.15em] uppercase transition-all duration-300 text-text-gray hover:text-text-cream"
             >
               Contact
-            </a>
-            <a
-              href="/journal"
+            </button>
+            <Link
+              to="/journal"
               className="relative px-4 py-2 text-xs font-bold tracking-[0.15em] uppercase transition-all duration-300 text-primary"
             >
               Journal
               <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-primary transition-all duration-300 w-4"></span>
-            </a>
-            <a
-              href="/resume"
+            </Link>
+            <Link
+              to="/resume"
               className="relative px-4 py-2 text-xs font-bold tracking-[0.15em] uppercase transition-all duration-300 text-text-gray hover:text-primary"
             >
               Hire
-            </a>
+            </Link>
           </nav>
 
           <button 

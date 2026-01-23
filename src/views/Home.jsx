@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
 import ContactService from "../services/contactService";
 
 const Home = () => {
+  const location = useLocation();
+  const previousPathnameRef = useRef(location.pathname);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -21,10 +23,19 @@ const Home = () => {
   const [screensaverActive, setScreensaverActive] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [quoteIndex, setQuoteIndex] = useState(0);
+  const [isHashNavigating, setIsHashNavigating] = useState(false);
+
+  // Track previous pathname to detect navigation from other pages
+  useEffect(() => {
+    previousPathnameRef.current = location.pathname;
+  }, [location.pathname]);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
+      
+      // Skip active section update during hash navigation
+      if (isHashNavigating) return;
       
       const sections = ["hero", "projects", "clients", "about", "contact"];
       const current = sections.find((section) => {
@@ -40,7 +51,28 @@ const Home = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isHashNavigating]);
+
+  // Handle hash navigation from other pages
+  useEffect(() => {
+    if (location.hash) {
+      const sectionId = location.hash.replace("#", "");
+      const element = document.getElementById(sectionId);
+      if (element) {
+        setIsHashNavigating(true);
+        setActiveSection(sectionId);
+        
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth" });
+        }, 50);
+        
+        // Disable hash navigation flag after scroll completes
+        setTimeout(() => {
+          setIsHashNavigating(false);
+        }, 1500);
+      }
+    }
+  }, [location.hash]);
 
   // Clock update for screensaver
   useEffect(() => {
@@ -228,6 +260,30 @@ const Home = () => {
       </div>
 
       <main className="bg-background-dark text-text-cream font-sans antialiased min-h-screen flex flex-col scroll-smooth relative z-10">
+        {/* Loading Screen - Only show when navigating FROM other pages (like Journal) TO a section on home page */}
+        {isHashNavigating && location.hash && location.pathname === "/" && previousPathnameRef.current !== "/" && (
+          <div className="fixed inset-0 z-[150] bg-background-dark/95 backdrop-blur-sm flex flex-col items-center justify-center pointer-events-auto">
+            <div className="flex flex-col items-center gap-6">
+              {/* Logo */}
+              <div className="text-4xl font-display font-bold tracking-tighter text-text-cream">
+                NP<span className="text-primary">.</span>
+              </div>
+              
+              {/* Loading Dots */}
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: "0s" }}></div>
+                <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: "0.1s" }}></div>
+                <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
+              </div>
+              
+              {/* Status Text */}
+              <p className="text-xs text-text-gray font-mono tracking-widest uppercase mt-2">
+                Navigating...
+              </p>
+            </div>
+          </div>
+        )}
+        
         <header
           className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
             isScrolled
